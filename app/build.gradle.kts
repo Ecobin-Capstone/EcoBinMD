@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.dicoding.ecobin"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.dicoding.ecobin"

@@ -1,7 +1,8 @@
-package com.dicoding.ecobin
+package com.dicoding.ecobin.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.ecobin.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
