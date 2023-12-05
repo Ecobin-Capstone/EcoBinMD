@@ -13,7 +13,19 @@
         android:theme="@style/Theme.EcoBin"
         tools:targetApi="31">
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.loginregister.LoginMitraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.loginregister.LoginUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.loginregister.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.loginregister.SelectLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.loginregister.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.ecobin.databinding.ActivityIntro4Binding
-import com.dicoding.ecobin.ui.LoginActivity
+import com.dicoding.ecobin.ui.loginregister.LoginActivity
 
 class IntroActivity4 : AppCompatActivity() {
     private lateinit var binding: ActivityIntro4Binding

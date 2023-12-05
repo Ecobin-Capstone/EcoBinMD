@@ -1,12 +1,12 @@
-package com.dicoding.ecobin.ui
+package com.dicoding.ecobin.ui.loginregister
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.ecobin.R
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
     }
 }
