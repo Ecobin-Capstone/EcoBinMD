@@ -22,7 +22,7 @@ class Dashboard : AppCompatActivity() {
                 }
 
                 R.id.scan -> {
-                    val dashboardIntent = Intent(this@Dashboard, Dashboard::class.java)
+                    val dashboardIntent = Intent(this@Dashboard, UploadActivity::class.java)
                     startActivity(dashboardIntent)
                     true
                 }

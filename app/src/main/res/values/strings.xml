@@ -18,4 +18,7 @@
     <string name="point">Point</string>
     <string name="jemput_sampah">Deliver Trash</string>
     <string name="redeem_point">Redeem Point</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
 </resources>
