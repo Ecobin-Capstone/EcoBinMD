@@ -7,4 +7,15 @@
     <string name="password">Password</string>
     <string name="message_login_page">Masukkan email dan password</string>
     <string name="message_login_page2">Anda login sebagai mitra!</string>
+    <string name="name">Lingga Dian Lestari</string>
+    <string name="welcome">Welcome,</string>
+    <string name="aktivitas_saya">Aktivitas Saya</string>
+    <string name="kirim_sampah">Sent</string>
+    <string name="_10x">10x</string>
+    <string name="trash">trash</string>
+    <string name="success">Success</string>
+    <string name="_250">250</string>
+    <string name="point">Point</string>
+    <string name="jemput_sampah">Deliver Trash</string>
+    <string name="redeem_point">Redeem Point</string>
 </resources>
