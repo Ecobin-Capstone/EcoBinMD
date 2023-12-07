@@ -53,18 +53,6 @@
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="@+id/textView"
                             app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="70dp"
-                            android:src="@drawable/bell"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
@@ -114,6 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/jemput_sampah"
+                            android:textSize="35px"
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="@+id/jemput"
                             app:layout_constraintStart_toStartOf="@+id/jemput"
@@ -125,6 +114,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/redeem_point"
                             android:textColor="@color/white"
+                            android:textSize="35px"
                             app:layout_constraintEnd_toEndOf="@+id/gift"
                             app:layout_constraintStart_toStartOf="@+id/gift"
                             app:layout_constraintTop_toBottomOf="@+id/gift" />
@@ -222,7 +212,7 @@
                                 android:id="@+id/kirimSampah"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/success"
+                                android:text="@string/point"
                                 android:textColor="@color/gray"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/qtyPoint"
@@ -233,7 +223,7 @@
                                 android:id="@+id/point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/point"
+                                android:text="@string/success"
                                 android:textColor="@color/gray"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/qtySuccess"
