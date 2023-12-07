@@ -2,6 +2,7 @@
     <string name="app_name">EcoBin</string>
     <string name="title_login_page">Anda login sebagai user!</string>
     <string name="title_login_page2">Anda login sebagai mitra!</string>
+    <string name="title_login_page3">Masukkan data dirimu</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="message_login_page">Masukkan email dan password</string>
