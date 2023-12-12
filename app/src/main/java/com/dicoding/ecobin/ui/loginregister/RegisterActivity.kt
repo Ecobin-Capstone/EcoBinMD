@@ -52,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
             showLoading(true)
             lifecycleScope.launch {
                 try {
-                    var successResponse = viewModel.registerUser(name, phone, email, password)
+                    var successResponse = viewModel.registerUser(name,email,phone, password)
                     showToast(successResponse.message)
                     showLoading(false)
                     Log.d("INI CEK ISI SUKSES", successResponse.toString())

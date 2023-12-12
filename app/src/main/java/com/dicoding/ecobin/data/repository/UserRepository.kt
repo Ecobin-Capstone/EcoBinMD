@@ -1,6 +1,7 @@
 package com.dicoding.ecobin.data.repository
 
 import com.dicoding.ecobin.data.response.LoginResponse
+import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.dicoding.ecobin.pref.UserModel
@@ -24,7 +25,14 @@ class UserRepository private constructor(
 
     suspend fun registerUser(name: String,phone: String, email: String, password: String): RegisterResponse {
         try {
-            val successResponse = apiService.register(name,email,phone,password)
+            val request = RegisterRequest(
+                name = name,
+                email = email,
+                phoneNumber = phone,
+                password = password
+            )
+//            val response = yourApiService.register(request)
+            val successResponse = apiService.register(request)
             if (successResponse.isSuccessful) {
                 val responseBody = successResponse.body()
                 if (responseBody != null) {
