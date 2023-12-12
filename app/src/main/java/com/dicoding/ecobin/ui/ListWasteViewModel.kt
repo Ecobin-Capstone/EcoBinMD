@@ -9,7 +9,14 @@ class ListWasteViewModel (private val repository: WasteRepository) : ViewModel()
     suspend fun getOrganicWaste(): OrganicWasteResponse {
         return repository.getOrganicWaste()
     }
+    suspend fun getNonOrganicWaste(): OrganicWasteResponse {
+        return repository.getnonOrganicWaste()
+    }
     suspend fun getOrganicPartner(): OrganicPartnerResponse {
         return repository.getOrganicPartner()
+    }
+
+    suspend fun getNonOrganicPartner(): OrganicPartnerResponse {
+        return repository.getnonOrganicPartner()
     }
 }

@@ -1,6 +1,5 @@
 package com.dicoding.ecobin.data.retrofit
 
-import com.dicoding.ecobin.data.response.AnorganicWasteResponse
 import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
@@ -28,7 +27,7 @@ interface ApiService {
         @Body requestBody: LoginMitraRequest
     ): Response<LoginMitraResponse>
     @GET("wastepickup/list/types/nonorganic")
-    suspend fun getListAnorganic(): Response<AnorganicWasteResponse>
+    suspend fun getListAnorganic(): Response<OrganicWasteResponse>
     @GET("wastepickup/list/types/organic")
     suspend fun getListOrganic(): Response<OrganicWasteResponse>
     @GET("wastepickup/list/partners/organic")

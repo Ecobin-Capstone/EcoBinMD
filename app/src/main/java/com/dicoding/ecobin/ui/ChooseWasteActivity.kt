@@ -18,6 +18,10 @@ class ChooseWasteActivity : AppCompatActivity() {
             startActivity(homeIntent)
             true
         }
-
+        binding.nonorganik.setOnClickListener {
+            val homeIntent = Intent(this@ChooseWasteActivity, ListWasteNonorganicActivity::class.java)
+            startActivity(homeIntent)
+            true
+        }
     }
 }
