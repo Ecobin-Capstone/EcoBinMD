@@ -12,6 +12,8 @@ class Dashboard : AppCompatActivity() {
     private val viewModel by viewModels<DashboardViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+
     private lateinit var binding: ActivityDashboardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
