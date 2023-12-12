@@ -29,7 +29,7 @@ class Dashboard : AppCompatActivity() {
         }
 
         binding.jemput.setOnClickListener {
-            val homeIntent = Intent(this@Dashboard, ListWasteActivity::class.java)
+            val homeIntent = Intent(this@Dashboard, ChooseWasteActivity::class.java)
             startActivity(homeIntent)
             true
         }

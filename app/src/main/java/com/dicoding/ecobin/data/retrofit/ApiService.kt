@@ -5,6 +5,7 @@ import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
+import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
@@ -30,5 +31,9 @@ interface ApiService {
     suspend fun getListAnorganic(): Response<AnorganicWasteResponse>
     @GET("wastepickup/list/types/organic")
     suspend fun getListOrganic(): Response<OrganicWasteResponse>
+    @GET("wastepickup/list/partners/organic")
+    suspend fun getOrganicPartner(): Response<OrganicPartnerResponse>
+    @GET("wastepickup/list/partners/nonorganic")
+    suspend fun getNonorganicPartner(): Response<OrganicPartnerResponse>
 
 }

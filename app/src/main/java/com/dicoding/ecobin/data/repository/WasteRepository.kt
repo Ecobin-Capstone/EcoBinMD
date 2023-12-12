@@ -1,5 +1,6 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
@@ -27,6 +28,28 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return OrganicWasteResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun getOrganicPartner(): OrganicPartnerResponse {
+        try {
+            val successResponse = apiService.getOrganicPartner()
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return OrganicPartnerResponse(message = "Response body is null")
+                }
+            } else {
+                return OrganicPartnerResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, OrganicPartnerResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return OrganicPartnerResponse(message = "Network error: ${e.message}")
         }
     }
     companion object {

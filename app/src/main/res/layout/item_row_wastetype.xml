@@ -19,7 +19,7 @@
 
         <ImageView
             android:id="@+id/img_item_photo"
-            android:layout_width="70dp"
+            android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -40,5 +40,28 @@
             card_view:layout_constraintStart_toEndOf="@+id/img_item_photo"
             card_view:layout_constraintTop_toTopOf="@+id/img_item_photo"
             tools:text="@string/waste_type" />
+
+        <TextView
+            android:id="@+id/telpTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Kg"
+            card_view:layout_constraintBottom_toBottomOf="@+id/beratText"
+            card_view:layout_constraintStart_toEndOf="@+id/beratText"
+            card_view:layout_constraintTop_toTopOf="@+id/beratText"
+            tools:alpha="100" />
+
+        <EditText
+            android:id="@+id/beratText"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Berat"
+            android:textSize="16sp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="@+id/tv_item_name"
+            card_view:layout_constraintHorizontal_bias="0.877"
+            card_view:layout_constraintStart_toStartOf="@+id/tv_item_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

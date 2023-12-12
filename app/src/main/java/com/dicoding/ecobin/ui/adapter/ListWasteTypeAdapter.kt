@@ -2,8 +2,11 @@ package com.dicoding.ecobin.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.dicoding.ecobin.R
 import com.dicoding.ecobin.data.response.DataOrganicWaste
 import com.dicoding.ecobin.databinding.ItemRowWastetypeBinding
 import com.dicoding.ecobin.ui.helper.WasteDiffCallback
@@ -22,22 +25,23 @@ class ListWasteTypeAdapter : RecyclerView.Adapter<ListWasteTypeAdapter.WasteView
         return WasteViewHolder(binding)
     }
     override fun onBindViewHolder(holder: WasteViewHolder, position: Int) {
-        holder.bind(listWaste[position])
+        holder.bind(listWaste[position], position)
     }
     override fun getItemCount(): Int {
         return listWaste.size
     }
     inner class WasteViewHolder(private val binding: ItemRowWastetypeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(organicWaste: DataOrganicWaste) {
+        val drawableImages = arrayOf(
+            R.drawable.paper,
+            R.drawable.leftover,
+        )
+        fun bind(organicWaste: DataOrganicWaste, position: Int) {
             with(binding) {
                 tvItemName.text = organicWaste.name
-//                Glide.with(circleImageView)
-//                    .load(fav.avatarUrl).into(circleImageView)
-//                cardView.setOnClickListener{
-//                    val intent = Intent(it.context, DetailUser::class.java)
-//                    intent.putExtra(DetailUser.EXTRA_FAV, fav)
-//                    it.context.startActivity(intent)
-//                }
+                val drawableImage = ContextCompat.getDrawable(itemView.context,drawableImages[position % drawableImages.size])
+                Glide.with(itemView.context)
+                    .load(drawableImage)
+                    .into(imgItemPhoto)
             }
         }
     }

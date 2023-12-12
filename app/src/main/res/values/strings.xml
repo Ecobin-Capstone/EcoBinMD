@@ -22,12 +22,4 @@
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
     <string name="waste_type">Plastik</string>
-
-    <string-array name="data_name">
-        <item>Kertas</item>
-        <item>Plastik</item>
-        <item>Kaca</item>
-        <item>Elektronik</item>
-        <item>Sisa makanan</item>
-    </string-array>
 </resources>
