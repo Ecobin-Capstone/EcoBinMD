@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.dicoding.ecobin.R
 import com.dicoding.ecobin.databinding.ActivityDashboardBinding
 import com.dicoding.ecobin.ui.loginregister.LoginUserActivity
+import kotlinx.coroutines.launch
 
 class Dashboard : AppCompatActivity() {
     private val viewModel by viewModels<DashboardViewModel> {
@@ -34,9 +36,13 @@ class Dashboard : AppCompatActivity() {
                 finish()
             }else{
                 binding.nameLoggedIn.text = user.name
+                lifecycleScope.launch {
+                    val activityUser = viewModel.getActivity(user.id)
+                    binding.qtySend.text = activityUser.data?.get(0)?.sendWaste.toString() +" x"
+                    binding.qtySuccess.text = activityUser.data?.get(0)?.managedWaste.toString() +" x"
+                    binding.qtyPoint.text = activityUser.data?.get(0)?.point.toString()
+                }
             }
-            //kalau udah login bakal observe tabel user activity
-
         }
 
         binding.jemput.setOnClickListener {
