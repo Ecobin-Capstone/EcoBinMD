@@ -26,6 +26,12 @@ class Dashboard : AppCompatActivity() {
             //kalau udah login bakal observe tabel user activity
         }
 
+        binding.jemput.setOnClickListener {
+            val homeIntent = Intent(this@Dashboard, ListWasteActivity::class.java)
+            startActivity(homeIntent)
+            true
+        }
+
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {

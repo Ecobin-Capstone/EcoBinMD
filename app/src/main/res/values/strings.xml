@@ -21,5 +21,13 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
-    <string name="web_client">925318209060-nq01eq64ja7q710flfmcncrl7hutn7uj.apps.googleusercontent.com</string>
+    <string name="waste_type">Plastik</string>
+
+    <string-array name="data_name">
+        <item>Kertas</item>
+        <item>Plastik</item>
+        <item>Kaca</item>
+        <item>Elektronik</item>
+        <item>Sisa makanan</item>
+    </string-array>
 </resources>
