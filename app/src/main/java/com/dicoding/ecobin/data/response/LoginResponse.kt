@@ -13,7 +13,10 @@ data class LoginResponse(
 	@field:SerializedName("token")
 	val token: String? = null
 )
-
+data class LoginRequest(
+	val email: String,
+	val password: String
+)
 data class DataItem(
 
 	@field:SerializedName("createdAt")

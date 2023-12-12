@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.ecobin.R
 import com.dicoding.ecobin.databinding.ActivityDashboardBinding
-import com.dicoding.ecobin.ui.loginregister.LoginUserActivity
 
 class Dashboard : AppCompatActivity() {
     private val viewModel by viewModels<DashboardViewModel> {
@@ -17,14 +16,6 @@ class Dashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, LoginUserActivity::class.java))
-                finish()
-            }
-            //kalau udah login bakal observe tabel user activity
-        }
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -52,6 +43,10 @@ class Dashboard : AppCompatActivity() {
                 // Add cases for other menu items if needed
                 else -> false
             }
+        }
+
+        binding.logout.setOnClickListener {
+            viewModel.logout()
         }
     }
 }

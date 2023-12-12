@@ -1,5 +1,6 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
@@ -31,7 +32,6 @@ class UserRepository private constructor(
                 phoneNumber = phone,
                 password = password
             )
-//            val response = yourApiService.register(request)
             val successResponse = apiService.register(request)
             if (successResponse.isSuccessful) {
                 val responseBody = successResponse.body()
@@ -53,7 +53,11 @@ class UserRepository private constructor(
     }
     suspend fun loginUser(email: String, password: String): LoginResponse {
         try {
-            val successResponse = apiService.login(email, password)
+            val request = LoginRequest(
+                email = email,
+                password = password
+            )
+            val successResponse = apiService.login(request)
             if (successResponse.isSuccessful) {
                 val responseBody = successResponse.body()
                 if (responseBody != null) {
