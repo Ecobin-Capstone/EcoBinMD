@@ -1,9 +1,13 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.LoginResponse
+import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.dicoding.ecobin.pref.UserModel
 import com.dicoding.ecobin.pref.UserPreference
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import retrofit2.HttpException
 
 class UserRepository private constructor(
     private val userPreference: UserPreference,
@@ -18,48 +22,48 @@ class UserRepository private constructor(
         return userPreference.getSession()
     }
 
-//    suspend fun registerUser(name: String, email: String, password: String): RegisterResponse {
-//        try {
-//            val successResponse = apiService.register(name, email, password)
-//            if (successResponse.isSuccessful) {
-//                val responseBody = successResponse.body()
-//                if (responseBody != null) {
-//                    return responseBody
-//                } else {
-//                    return RegisterResponse(error = true, message = "Response body is null")
-//                }
-//            } else {
-//                return RegisterResponse(error = true, message = "Registration failed with HTTP status code: ${successResponse.code()}")
-//            }
-//        } catch (e: HttpException) {
-//            val errorBody = e.response()?.errorBody()?.string()
-//            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
-//            return errorResponse
-//        } catch (e: Exception) {
-//            return RegisterResponse(error = true, message = "Network error: ${e.message}")
-//        }
-//    }
-//    suspend fun loginUser(email: String, password: String): LoginResponse {
-//        try {
-//            val successResponse = apiService.login(email, password)
-//            if (successResponse.isSuccessful) {
-//                val responseBody = successResponse.body()
-//                if (responseBody != null) {
-//                    return responseBody
-//                } else {
-//                    return LoginResponse(error = true, message = "Response body is null")
-//                }
-//            } else {
-//                return LoginResponse(error = true, message = "Login failed with HTTP status code: ${successResponse.code()}")
-//            }
-//        } catch (e: HttpException) {
-//            val errorBody = e.response()?.errorBody()?.string()
-//            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-//            return errorResponse
-//        } catch (e: Exception) {
-//            return LoginResponse(error = true, message = "Network error: ${e.message}")
-//        }
-//    }
+    suspend fun registerUser(name: String,phone: String, email: String, password: String): RegisterResponse {
+        try {
+            val successResponse = apiService.register(name,email,phone,password)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return RegisterResponse(message = "Response body is null")
+                }
+            } else {
+                return RegisterResponse(message = "Registration failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return RegisterResponse(message = "Network error: ${e.message}")
+        }
+    }
+    suspend fun loginUser(email: String, password: String): LoginResponse {
+        try {
+            val successResponse = apiService.login(email, password)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return LoginResponse(message = "Response body is null")
+                }
+            } else {
+                return LoginResponse(message = "Login failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return LoginResponse(message = "Network error: ${e.message}")
+        }
+    }
     suspend fun logout() {
         userPreference.logout()
     }
