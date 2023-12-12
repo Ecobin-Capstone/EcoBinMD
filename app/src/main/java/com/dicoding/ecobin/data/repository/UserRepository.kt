@@ -1,5 +1,7 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.LoginMitraRequest
+import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
@@ -76,6 +78,33 @@ class UserRepository private constructor(
             return LoginResponse(message = "Network error: ${e.message}")
         }
     }
+
+    suspend fun loginMitra(email: String, password: String): LoginMitraResponse {
+        try {
+            val request = LoginMitraRequest(
+                email = email,
+                password = password
+            )
+            val successResponse = apiService.loginMitra(request)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return LoginMitraResponse(message = "Response body is null")
+                }
+            } else {
+                return LoginMitraResponse(message = "Login failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, LoginMitraResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return LoginMitraResponse(message = "Network error: ${e.message}")
+        }
+    }
+
     suspend fun logout() {
         userPreference.logout()
     }

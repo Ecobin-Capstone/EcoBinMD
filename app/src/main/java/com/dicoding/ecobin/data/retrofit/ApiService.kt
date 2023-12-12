@@ -1,5 +1,7 @@
 package com.dicoding.ecobin.data.retrofit
 
+import com.dicoding.ecobin.data.response.LoginMitraRequest
+import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
@@ -9,14 +11,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-//    @FormUrlEncoded
-//    @POST("users/register")
-//    suspend fun register(
-//        @Field("name") name: String,
-//        @Field("email") email: String,
-//        @Field("phoneNumber") phoneNumber: String,
-//        @Field("password") password: String
-//    ): Response<RegisterResponse>
     @POST("users/register")
     suspend fun register(
         @Body requestBody: RegisterRequest
@@ -25,4 +19,9 @@ interface ApiService {
     suspend fun login(
         @Body requestBody: LoginRequest
     ): Response<LoginResponse>
+    @POST("partners/login")
+    suspend fun loginMitra(
+        @Body requestBody: LoginMitraRequest
+    ): Response<LoginMitraResponse>
+
 }

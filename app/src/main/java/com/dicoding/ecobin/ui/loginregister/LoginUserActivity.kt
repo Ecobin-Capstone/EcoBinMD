@@ -29,10 +29,6 @@ class LoginUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        binding.loginButton.setOnClickListener {
-//            startActivity(Intent(this, Dashboard::class.java))
-//        }
         setupView()
         setupAction()
     }

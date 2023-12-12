@@ -13,4 +13,5 @@ class LoginViewModel (private val repository: UserRepository) : ViewModel(){
         }
     }
     suspend fun loginUser(email: String, password: String)= repository.loginUser(email, password)
+    suspend fun loginMitra(email: String, password: String)= repository.loginMitra(email, password)
 }
