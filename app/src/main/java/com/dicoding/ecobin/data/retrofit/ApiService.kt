@@ -8,10 +8,12 @@ import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
+import com.dicoding.ecobin.data.response.UserActivityResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("users/register")
@@ -34,5 +36,7 @@ interface ApiService {
     suspend fun getOrganicPartner(): Response<OrganicPartnerResponse>
     @GET("wastepickup/list/partners/nonorganic")
     suspend fun getNonorganicPartner(): Response<OrganicPartnerResponse>
+    @GET("users/{id}/activity")
+    suspend fun getActivity(@Path("id") id: String): Response<UserActivityResponse>
 
 }

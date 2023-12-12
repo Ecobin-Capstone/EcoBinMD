@@ -64,12 +64,13 @@ class LoginUserActivity : AppCompatActivity() {
                     showToast(successResponse.message)
                     if (successResponse != null) {
                         showLoading(false)
-                        viewModel.saveSession(UserModel(email))
+                        viewModel.saveSession(UserModel(email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: ""))
                         AlertDialog.Builder(this@LoginUserActivity).apply {
                             setTitle("Yeah!")
                             setMessage("Anda berhasil login.")
                             setPositiveButton("Lanjut") { _, _ ->
                                 val intent = Intent(context, Dashboard::class.java)
+                                intent.putExtra(Dashboard.EXTRA_ID, successResponse.data?.get(0)?.id.toString())
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()

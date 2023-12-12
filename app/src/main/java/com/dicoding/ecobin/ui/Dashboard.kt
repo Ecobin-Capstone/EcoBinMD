@@ -2,6 +2,7 @@ package com.dicoding.ecobin.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.ecobin.R
@@ -13,6 +14,10 @@ class Dashboard : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
+    companion object {
+        const val EXTRA_ID= "ID"
+        var id = ""
+    }
 
     private lateinit var binding: ActivityDashboardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,12 +25,18 @@ class Dashboard : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        id = intent.getStringExtra(EXTRA_ID) ?: ""
+        Log.d("INI iD USER LOGIN", id)
+
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginUserActivity::class.java))
                 finish()
+            }else{
+                binding.nameLoggedIn.text = user.name
             }
             //kalau udah login bakal observe tabel user activity
+
         }
 
         binding.jemput.setOnClickListener {

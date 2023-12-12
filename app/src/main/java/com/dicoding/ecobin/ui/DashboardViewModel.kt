@@ -18,4 +18,6 @@ class DashboardViewModel(private val repository: UserRepository) : ViewModel(){
             repository.logout()
         }
     }
+
+    suspend fun getActivity(id : String)= repository.getActivity(id)
 }

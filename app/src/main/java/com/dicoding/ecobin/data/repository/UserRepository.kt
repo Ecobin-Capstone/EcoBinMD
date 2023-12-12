@@ -6,6 +6,7 @@ import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
+import com.dicoding.ecobin.data.response.UserActivityResponse
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.dicoding.ecobin.pref.UserModel
 import com.dicoding.ecobin.pref.UserPreference
@@ -102,6 +103,27 @@ class UserRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return LoginMitraResponse(message = "Network error: ${e.message}")
+        }
+    }
+    suspend fun getActivity(id: String): UserActivityResponse{
+        try {
+            val successResponse = apiService.getActivity(id)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return UserActivityResponse(message = "Response body is null")
+                }
+            } else {
+                return UserActivityResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, UserActivityResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return UserActivityResponse(message = "Network error: ${e.message}")
         }
     }
 
