@@ -16,19 +16,11 @@ class Dashboard : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
-    companion object {
-        const val EXTRA_ID= "ID"
-        var id = ""
-    }
-
     private lateinit var binding: ActivityDashboardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        id = intent.getStringExtra(EXTRA_ID) ?: ""
-        Log.d("INI iD USER LOGIN", id)
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
