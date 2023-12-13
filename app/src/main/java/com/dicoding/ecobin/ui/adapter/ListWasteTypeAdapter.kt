@@ -49,7 +49,11 @@ class ListWasteTypeAdapter : RecyclerView.Adapter<ListWasteTypeAdapter.WasteView
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val quantity = s.toString().toIntOrNull() ?: 0
-                        val typeId = position + 1
+                        val typeId = if (position == 1) {
+                            5
+                        } else {
+                            position + 1
+                        }
                         val wasteItem = WasteItem(typeId, quantity)
 
                         // Update the wasteItemList for the specific position

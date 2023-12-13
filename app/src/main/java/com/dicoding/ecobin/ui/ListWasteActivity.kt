@@ -21,7 +21,6 @@ import com.dicoding.ecobin.ui.adapter.ListWasteTypeAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -103,8 +102,6 @@ class ListWasteActivity : AppCompatActivity() {
             val organicPartnerList = organicPartner.data?.filterNotNull() ?: emptyList()
             val partnerNames: List<String> = organicPartnerList.map { "${it.name} - ${it.subDistrict}" }
 
-
-
             val adapterSpinner = ArrayAdapter(this@ListWasteActivity, R.layout.simple_spinner_item, partnerNames)
             adapterSpinner.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
 
@@ -112,13 +109,11 @@ class ListWasteActivity : AppCompatActivity() {
 
             binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val selectedWasteName = partnerNames[position]
                     partnerID = organicPartner.data?.get(position)?.id!!
                     Log.d("Ini id partner", partnerID.toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // Handle jika tidak ada yang dipilih
                 }
             }
 
@@ -130,14 +125,7 @@ class ListWasteActivity : AppCompatActivity() {
 
         binding.nextButton.setOnClickListener {
             val wasteItemList = adapter.getWasteItemList()
-
-            wasteItemList.forEachIndexed { index, wasteItem ->
-                Log.d("Ini isi waste item", "Item $index - Type ID: ${wasteItem.typeId}, Quantity: ${wasteItem.quantity}")
-            }
             val notes = binding.notes.text.toString()
-            val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-            val waktu = sdf.parse(formattedTime)
-            val time = Time(waktu.time)
             lifecycleScope.launch {
                 try {
                     var successResponse = viewModelWaste.sendWaste(userID, partnerID, phoneNumber, province, subDistrict, village, postalCode, latitude,
