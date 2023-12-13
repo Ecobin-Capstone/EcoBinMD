@@ -63,7 +63,7 @@ class LoginMitraActivity : AppCompatActivity() {
                     showToast(successResponse.message)
                     if (successResponse != null) {
                         showLoading(false)
-                        viewModel.saveSession(UserModel(email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "", 0.0,0.0))
+                        viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber.toString(),email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "", 0.0,0.0))
                         AlertDialog.Builder(this@LoginMitraActivity).apply {
                             setTitle("Yeah!")
                             setMessage("Anda berhasil login.")

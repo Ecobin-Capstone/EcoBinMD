@@ -33,7 +33,7 @@ interface ApiService {
     @POST("wastepickup/users/{id}/order")
     suspend fun sendWaste(
         @Body requestBody: SendWasteRequest,
-        @Path("id") id: String
+        @Path("id") id: Int
     ): Response<SendWasteResponse>
     @GET("wastepickup/list/types/nonorganic")
     suspend fun getListAnorganic(): Response<OrganicWasteResponse>

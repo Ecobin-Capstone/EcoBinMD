@@ -64,7 +64,7 @@ class LoginUserActivity : AppCompatActivity() {
                     showToast(successResponse.message)
                     if (successResponse != null) {
                         showLoading(false)
-                        viewModel.saveSession(UserModel(email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "",successResponse.data?.get(0)?.latitude ?: 0.0, successResponse.data?.get(0)?.longitude ?: 0.0))
+                        viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber ?: "",email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "",successResponse.data?.get(0)?.latitude ?: 0.0, successResponse.data?.get(0)?.longitude ?: 0.0))
                         AlertDialog.Builder(this@LoginUserActivity).apply {
                             setTitle("Yeah!")
                             setMessage("Anda berhasil login.")

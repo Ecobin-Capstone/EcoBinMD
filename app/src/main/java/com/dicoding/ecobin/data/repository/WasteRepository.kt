@@ -2,9 +2,14 @@ package com.dicoding.ecobin.data.repository
 
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
+import com.dicoding.ecobin.data.response.SendWasteRequest
+import com.dicoding.ecobin.data.response.SendWasteResponse
+import com.dicoding.ecobin.data.response.WasteItem
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
 import retrofit2.HttpException
+import java.sql.Time
+import java.util.Date
 
 class WasteRepository private constructor(
     private val apiService: ApiService
@@ -28,6 +33,44 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return OrganicWasteResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun sendWaste(id: Int,partnersIdValue: Int,phoneNumberValue: String, provinceValue: String, subDistrictValue: String, villageValue: String, postalCodeValue: String, latitudeValue: Double, longitudeValue: Double, addressValue: String, dateValue: String, timeValue: String, noteValue: String, wasteItemsList: List<WasteItem> ): SendWasteResponse {
+        try {
+            val request = SendWasteRequest(
+                partnersId = partnersIdValue,
+                phoneNumber = phoneNumberValue,
+                province = provinceValue,
+                subDistrict = subDistrictValue,
+                village = villageValue,
+                postalCode = postalCodeValue,
+                latitude = latitudeValue,
+                longitude = longitudeValue,
+                address = addressValue,
+                date = dateValue,
+                time = timeValue,
+                note = noteValue,
+                wasteItems = wasteItemsList
+            )
+
+            val successResponse = apiService.sendWaste(request,id)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return SendWasteResponse(message = "Response body is null")
+                }
+            } else {
+                return SendWasteResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, SendWasteResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return SendWasteResponse(message = "Network error: ${e.message}")
         }
     }
 
