@@ -37,6 +37,7 @@ class Dashboard : AppCompatActivity() {
         }
 
         binding.jemput.setOnClickListener {
+            viewModel.getSession().removeObservers(this@Dashboard)
             val homeIntent = Intent(this@Dashboard, ChooseWasteActivity::class.java)
             startActivity(homeIntent)
             true

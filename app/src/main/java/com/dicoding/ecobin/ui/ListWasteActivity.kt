@@ -1,6 +1,8 @@
 package com.dicoding.ecobin.ui
 
 import android.R
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,8 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.ecobin.databinding.ActivityListWasteBinding
 import com.dicoding.ecobin.ui.adapter.ListWasteTypeAdapter
-import com.dicoding.ecobin.ui.helper.ReverseGeocodingTask
 import kotlinx.coroutines.launch
+import java.util.Locale
+
 
 class ListWasteActivity : AppCompatActivity() {
     private val viewModelWaste by viewModels<ListWasteViewModel> {
@@ -23,6 +26,7 @@ class ListWasteActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityListWasteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListWasteBinding.inflate(layoutInflater)
@@ -35,19 +39,29 @@ class ListWasteActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.getSession().observe(this@ListWasteActivity) { user ->
                 user?.let {
-                    if (it.isLogin) {
-                        val apiKey = "AIzaSyAaWO6maHOcP2wjQSaEAbZ3nBc0lkz9OIY"
-                        val latitude = it.lat
-                        val longitude = it.long
+                    val geocoder: Geocoder
+                    val addresses: List<Address>?
+                    geocoder = Geocoder(this@ListWasteActivity, Locale.getDefault())
 
-                        val reverseGeocodingTask = ReverseGeocodingTask(apiKey, object : ReverseGeocodingTask.OnAddressFetchedListener {
-                            override fun onAddressFetched(address: String) {
-                                Log.d("Full Address", address)
-                                // Handle the fetched address here
-                            }
-                        })
+                    addresses = geocoder.getFromLocation(
+                        it.lat,
+                        it.long,
+                        1
+                    )
+                    if(addresses?.size != 0){
+                        val address: String? = addresses?.get(0)?.getAddressLine(0) ?: "No Address Found"// If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-                        reverseGeocodingTask.execute(latitude, longitude)
+                        val city: String = addresses!![0].locality
+                        val state: String = addresses!![0].adminArea
+                        val country: String = addresses!![0].countryName
+                        val postalCode: String = addresses!![0].postalCode
+                        val knownName: String = addresses!![0].featureName
+                        Log.d("City", city)
+                        Log.d("Address", address!!)
+                        Log.d("State", state)
+                        Log.d("Country", country)
+                        Log.d("PostalCode", postalCode)
+                        Log.d("knownName", knownName)
                     }
                 }
             }
