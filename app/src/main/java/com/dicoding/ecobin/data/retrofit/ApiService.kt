@@ -1,5 +1,6 @@
 package com.dicoding.ecobin.data.retrofit
 
+import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
@@ -11,6 +12,7 @@ import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UserActivityResponse
+import com.dicoding.ecobin.data.response.WastePickupResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -45,5 +47,15 @@ interface ApiService {
     suspend fun getNonorganicPartner(): Response<OrganicPartnerResponse>
     @GET("users/{id}/activity")
     suspend fun getActivity(@Path("id") id: String): Response<UserActivityResponse>
+
+    @GET("wastepickup/users/{id}/history/pending")
+    suspend fun getPending(@Path("id") id: String): Response<WastePickupResponse>
+    @GET("wastepickup/users/{id}/history/accept")
+    suspend fun getAccept(@Path("id") id: String): Response<WastePickupResponse>
+    @GET("wastepickup/users/{id}/history/decline")
+    suspend fun getDecline(@Path("id") id: String): Response<WastePickupResponse>
+
+    @GET("partners/{id}/list/orders")
+    suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>
 
 }

@@ -14,6 +14,9 @@ class WasteViewModelFactory (private val repository: WasteRepository) : ViewMode
             modelClass.isAssignableFrom(ListWasteViewModel::class.java) -> {
                 ListWasteViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(ListOrderViewModel::class.java) -> {
+                ListOrderViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

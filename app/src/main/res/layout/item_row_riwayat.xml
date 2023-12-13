@@ -10,8 +10,7 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="4dp"
-    android:background="@drawable/myactivity">
+    card_view:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,35 +20,63 @@
 
         <!-- Transaction ID -->
         <TextView
-            android:id="@+id/transactionIdTextView"
+            android:id="@+id/transID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ID Transaksi: ABC123"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Waste Type -->
         <TextView
-            android:id="@+id/wasteTypeTextView"
+            android:id="@+id/waktu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jenis Sampah: Plastic"
+            android:text="Waktu"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/nama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama Pemesan: "
             android:textSize="16sp" />
 
-        <!-- Partner -->
         <TextView
-            android:id="@+id/partnerTextView"
+            android:id="@+id/alamat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mitra: Company XYZ"
+            android:text="Alamat: "
             android:textSize="16sp" />
 
-        <!-- Transaction Time -->
         <TextView
-            android:id="@+id/transactionTimeTextView"
+            android:id="@+id/notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jam Transaksi: 09:00 AM"
+            android:text="Notes"
             android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/acceptButton"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/green"
+            android:text="Accept" />
+
+        <Button
+            android:id="@+id/DeclineButton"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_border"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/gray"
+            android:text="Decline" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

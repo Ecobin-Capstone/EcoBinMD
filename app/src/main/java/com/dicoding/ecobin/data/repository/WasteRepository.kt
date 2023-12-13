@@ -1,5 +1,6 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
@@ -8,8 +9,6 @@ import com.dicoding.ecobin.data.response.WasteItem
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
 import retrofit2.HttpException
-import java.sql.Time
-import java.util.Date
 
 class WasteRepository private constructor(
     private val apiService: ApiService
@@ -115,6 +114,28 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return OrganicPartnerResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun getOrder(id: String): ListOrderResponse {
+        try {
+            val successResponse = apiService.getOrder(id)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return ListOrderResponse(message = "Response body is null")
+                }
+            } else {
+                return ListOrderResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ListOrderResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return ListOrderResponse(message = "Network error: ${e.message}")
         }
     }
 
