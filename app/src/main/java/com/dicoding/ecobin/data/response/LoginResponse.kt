@@ -32,5 +32,11 @@ data class DataItem(
 	val id: Int? = null,
 
 	@field:SerializedName("email")
-	val email: String? = null
+	val email: String? = null,
+
+	@field:SerializedName("latitude")
+	val latitude: Double? = null,
+
+	@field:SerializedName("longitude")
+	val longitude: Double? = null
 )

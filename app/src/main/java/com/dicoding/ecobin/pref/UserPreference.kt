@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -19,6 +20,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             preferences[EMAIL_KEY] = user.email
             preferences[ID] = user.id
             preferences[NAME] = user.name
+            preferences[LAT] = user.lat
+            preferences[LONG] = user.long
             preferences[IS_LOGIN_KEY] = true
         }
     }
@@ -29,6 +32,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 preferences[EMAIL_KEY] ?: "",
                 preferences[ID] ?: "",
                 preferences[NAME] ?: "",
+                preferences[LAT] ?: 0.0,
+                preferences[LONG] ?: 0.0,
                 preferences[IS_LOGIN_KEY] ?: false
             )
         }
@@ -47,6 +52,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val ID = stringPreferencesKey("id")
         private val NAME= stringPreferencesKey("name")
+        private val LAT= doublePreferencesKey("lat")
+        private val LONG= doublePreferencesKey("long")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
 
         fun getInstance(dataStore: DataStore<Preferences>): UserPreference {

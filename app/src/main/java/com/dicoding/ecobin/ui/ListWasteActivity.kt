@@ -2,6 +2,7 @@ package com.dicoding.ecobin.ui
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,11 +12,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.ecobin.databinding.ActivityListWasteBinding
 import com.dicoding.ecobin.ui.adapter.ListWasteTypeAdapter
+import com.dicoding.ecobin.ui.helper.ReverseGeocodingTask
 import kotlinx.coroutines.launch
 
 class ListWasteActivity : AppCompatActivity() {
     private val viewModelWaste by viewModels<ListWasteViewModel> {
         WasteViewModelFactory.getInstance(this)
+    }
+    private val viewModel by viewModels<DashboardViewModel> {
+        ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityListWasteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +33,25 @@ class ListWasteActivity : AppCompatActivity() {
         binding.rvWasteType.adapter = adapter
 
         lifecycleScope.launch {
+            viewModel.getSession().observe(this@ListWasteActivity) { user ->
+                user?.let {
+                    if (it.isLogin) {
+                        val apiKey = "AIzaSyAaWO6maHOcP2wjQSaEAbZ3nBc0lkz9OIY"
+                        val latitude = it.lat
+                        val longitude = it.long
+
+                        val reverseGeocodingTask = ReverseGeocodingTask(apiKey, object : ReverseGeocodingTask.OnAddressFetchedListener {
+                            override fun onAddressFetched(address: String) {
+                                Log.d("Full Address", address)
+                                // Handle the fetched address here
+                            }
+                        })
+
+                        reverseGeocodingTask.execute(latitude, longitude)
+                    }
+                }
+            }
+
             val organicPartner = viewModelWaste.getOrganicPartner()
             val organicPartnerList = organicPartner.data?.filterNotNull() ?: emptyList()
             val partnerNames: List<String> = organicPartnerList.map { "${it.name} - ${it.subDistrict}" }
@@ -51,6 +75,7 @@ class ListWasteActivity : AppCompatActivity() {
             val organicWasteList = viewModelWaste.getOrganicWaste()
             val filteredList = organicWasteList.data?.filterNotNull() ?: emptyList()
             adapter.setListWaste(filteredList)
+
         }
     }
 

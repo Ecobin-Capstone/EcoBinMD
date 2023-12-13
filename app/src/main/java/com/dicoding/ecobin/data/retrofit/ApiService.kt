@@ -8,6 +8,8 @@ import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
+import com.dicoding.ecobin.data.response.SendWasteRequest
+import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UserActivityResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -28,6 +30,11 @@ interface ApiService {
     suspend fun loginMitra(
         @Body requestBody: LoginMitraRequest
     ): Response<LoginMitraResponse>
+    @POST("wastepickup/users/{id}/order")
+    suspend fun sendWaste(
+        @Body requestBody: SendWasteRequest,
+        @Path("id") id: String
+    ): Response<SendWasteResponse>
     @GET("wastepickup/list/types/nonorganic")
     suspend fun getListAnorganic(): Response<OrganicWasteResponse>
     @GET("wastepickup/list/types/organic")
