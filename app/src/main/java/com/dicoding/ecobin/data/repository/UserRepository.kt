@@ -27,13 +27,15 @@ class UserRepository private constructor(
         return userPreference.getSession()
     }
 
-    suspend fun registerUser(name: String,phone: String, email: String, password: String): RegisterResponse {
+    suspend fun registerUser(name: String,phone: String, email: String, password: String, latitude: Double?, longitude: Double?): RegisterResponse {
         try {
             val request = RegisterRequest(
                 name = name,
                 email = email,
                 phoneNumber = phone,
-                password = password
+                password = password,
+                latitude = latitude,
+                longitude = longitude
             )
             val successResponse = apiService.register(request)
             if (successResponse.isSuccessful) {
