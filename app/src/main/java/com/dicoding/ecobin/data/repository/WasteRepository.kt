@@ -5,8 +5,10 @@ import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
+import com.dicoding.ecobin.data.response.ProfileResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
+import com.dicoding.ecobin.data.response.UpdateData
 import com.dicoding.ecobin.data.response.WasteItem
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
@@ -188,6 +190,33 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return AcceptDeclineResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun updateProfile(id: String, name : String, phoneNumber: String, email: String): ProfileResponse {
+        try {
+            val request = UpdateData(
+                name = name,
+                phoneNumber = phoneNumber,
+                email = email
+            )
+            val successResponse = apiService.updateProfile(id, request)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return ProfileResponse(message = "Response body is null")
+                }
+            } else {
+                return ProfileResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ProfileResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return ProfileResponse(message = "Network error: ${e.message}")
         }
     }
 

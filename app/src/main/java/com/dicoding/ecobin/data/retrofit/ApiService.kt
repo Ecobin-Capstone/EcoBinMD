@@ -9,10 +9,12 @@ import com.dicoding.ecobin.data.response.LoginResponse
 import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
+import com.dicoding.ecobin.data.response.ProfileResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
+import com.dicoding.ecobin.data.response.UpdateData
 import com.dicoding.ecobin.data.response.UserActivityResponse
 import com.dicoding.ecobin.data.response.WastePickupResponse
 import retrofit2.Response
@@ -60,15 +62,21 @@ interface ApiService {
 
     @GET("partners/{id}/list/orders")
     suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>
+
     @PATCH("partners/{id}/accept")
     suspend fun updateOrder(
         @Path("id") id: String,
         @Body orderData: OrderDataToUpdate
     ): Response<AcceptDeclineResponse>
-
     @PATCH("partners/{id}/decline")
     suspend fun declineOrder(
         @Path("id") id: String,
         @Body orderData: OrderDataToUpdate
     ): Response<AcceptDeclineResponse>
+
+    @PATCH("users/{id}/editprofile")
+    suspend fun updateProfile(
+        @Path("id") id: String,
+        @Body updateData: UpdateData
+    ): Response<ProfileResponse>
 }
