@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.ecobin.data.response.DataOrder
 import com.dicoding.ecobin.databinding.ItemRowRiwayatBinding
 import com.dicoding.ecobin.ui.helper.OrderDiffCallback
-class ListOrderAdapter : RecyclerView.Adapter<ListOrderAdapter.OrderViewHolder>(){
+class ListOrderAdapter(private val listener: OrderClickListener): RecyclerView.Adapter<ListOrderAdapter.OrderViewHolder>(){
     private val listOrder = ArrayList<DataOrder>()
     fun setListOrder(listOrder: List<DataOrder>) {
         val diffCallback = OrderDiffCallback(this.listOrder, listOrder)
@@ -26,7 +26,33 @@ class ListOrderAdapter : RecyclerView.Adapter<ListOrderAdapter.OrderViewHolder>(
     override fun getItemCount(): Int {
         return listOrder.size
     }
+
+    fun getItem(position: Int): DataOrder {
+        return listOrder[position]
+    }
+
+    interface OrderClickListener {
+        fun onAcceptOrder(orderId: Int)
+        fun onDeclineOrder(orderId: Int)
+    }
     inner class OrderViewHolder(private val binding: ItemRowRiwayatBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.acceptButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val order = getItem(position)
+                    listener.onAcceptOrder(order.pickupId!!)
+                }
+            }
+
+            binding.DeclineButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val order = getItem(position)
+                    listener.onDeclineOrder(order.pickupId!!)
+                }
+            }
+        }
         fun bind(order: DataOrder) {
             with(binding) {
                 nama.text = "Nama : "+order.name

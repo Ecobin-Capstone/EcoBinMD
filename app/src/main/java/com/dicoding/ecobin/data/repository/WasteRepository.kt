@@ -1,6 +1,8 @@
 package com.dicoding.ecobin.data.repository
 
+import com.dicoding.ecobin.data.response.AcceptDeclineResponse
 import com.dicoding.ecobin.data.response.ListOrderResponse
+import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
@@ -136,6 +138,56 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return ListOrderResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun updateOrder(id: String, pickupID: Int): AcceptDeclineResponse {
+        try {
+            val request = OrderDataToUpdate(
+                pickupId = pickupID,
+            )
+            val successResponse = apiService.updateOrder(id, request)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return AcceptDeclineResponse(message = "Response body is null")
+                }
+            } else {
+                return AcceptDeclineResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, AcceptDeclineResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return AcceptDeclineResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun declineOrder(id: String, pickupID : Int): AcceptDeclineResponse {
+        try {
+            val request = OrderDataToUpdate(
+                pickupId = pickupID,
+            )
+            val successResponse = apiService.declineOrder(id, request)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return AcceptDeclineResponse(message = "Response body is null")
+                }
+            } else {
+                return AcceptDeclineResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, AcceptDeclineResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return AcceptDeclineResponse(message = "Network error: ${e.message}")
         }
     }
 

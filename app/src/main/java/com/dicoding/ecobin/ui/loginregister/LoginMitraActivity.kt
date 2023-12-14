@@ -61,7 +61,7 @@ class LoginMitraActivity : AppCompatActivity() {
                 try {
                     var successResponse = viewModel.loginMitra(email, password)
                     showToast(successResponse.message)
-                    if (successResponse != null) {
+                    if (successResponse.message == "You have successfully login in your account") {
                         showLoading(false)
                         viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber.toString(),email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "", 0.0,0.0))
                         AlertDialog.Builder(this@LoginMitraActivity).apply {

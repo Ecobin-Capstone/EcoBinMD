@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.ecobin.R
 import com.dicoding.ecobin.databinding.ActivityDashboardBinding
-import com.dicoding.ecobin.ui.loginregister.LoginUserActivity
+import com.dicoding.ecobin.ui.loginregister.LoginActivity
 import kotlinx.coroutines.launch
 
 class Dashboard : AppCompatActivity() {
@@ -23,7 +23,7 @@ class Dashboard : AppCompatActivity() {
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
-                startActivity(Intent(this, LoginUserActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }else{
                 binding.nameLoggedIn.text = user.name

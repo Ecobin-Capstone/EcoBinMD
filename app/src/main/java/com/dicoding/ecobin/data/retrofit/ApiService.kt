@@ -1,10 +1,12 @@
 package com.dicoding.ecobin.data.retrofit
 
+import com.dicoding.ecobin.data.response.AcceptDeclineResponse
 import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
+import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
@@ -16,6 +18,7 @@ import com.dicoding.ecobin.data.response.WastePickupResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -57,5 +60,15 @@ interface ApiService {
 
     @GET("partners/{id}/list/orders")
     suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>
+    @PATCH("partners/{id}/accept")
+    suspend fun updateOrder(
+        @Path("id") id: String,
+        @Body orderData: OrderDataToUpdate
+    ): Response<AcceptDeclineResponse>
 
+    @PATCH("partners/{id}/decline")
+    suspend fun declineOrder(
+        @Path("id") id: String,
+        @Body orderData: OrderDataToUpdate
+    ): Response<AcceptDeclineResponse>
 }

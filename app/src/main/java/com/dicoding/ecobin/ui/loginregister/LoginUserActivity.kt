@@ -62,7 +62,7 @@ class LoginUserActivity : AppCompatActivity() {
                 try {
                     var successResponse = viewModel.loginUser(email, password)
                     showToast(successResponse.message)
-                    if (successResponse != null) {
+                    if (successResponse.message == "You have successfully login in your account") {
                         showLoading(false)
                         viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber ?: "",email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "",successResponse.data?.get(0)?.latitude ?: 0.0, successResponse.data?.get(0)?.longitude ?: 0.0))
                         AlertDialog.Builder(this@LoginUserActivity).apply {
