@@ -77,7 +77,6 @@ class ListOrderActivity : AppCompatActivity(), ListOrderAdapter.OrderClickListen
         lifecycleScope.launch {
             try {
                 var successResponse = viewModelOrder.updateOrder(id,orderId)
-                showToast(successResponse.message)
                 if (successResponse.message == "Waste pickup order is being processed by partner") {
                     showLoading(false)
                     AlertDialog.Builder(this@ListOrderActivity).apply {
@@ -106,7 +105,6 @@ class ListOrderActivity : AppCompatActivity(), ListOrderAdapter.OrderClickListen
         lifecycleScope.launch {
             try {
                 var successResponse = viewModelOrder.declineOrder(id,orderId)
-                showToast(successResponse.message)
                 if (successResponse.message == "Waste pickup order has been declined by partner") {
                     showLoading(false)
                     AlertDialog.Builder(this@ListOrderActivity).apply {

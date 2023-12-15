@@ -6,6 +6,8 @@ import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.ProfileResponse
+import com.dicoding.ecobin.data.response.RedeemPointRequest
+import com.dicoding.ecobin.data.response.RedeemResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UpdateData
@@ -213,6 +215,31 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return AcceptDeclineResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun redeemPoint(id: Int, vouchersId: Int): RedeemResponse {
+        try {
+            val request = RedeemPointRequest(
+                vouchersId = vouchersId,
+            )
+            val successResponse = apiService.redeemPoint(request,id)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return RedeemResponse(message = "Response body is null")
+                }
+            } else {
+                return RedeemResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, RedeemResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return RedeemResponse(message = "Network error: ${e.message}")
         }
     }
 

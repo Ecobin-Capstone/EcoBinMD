@@ -130,7 +130,6 @@ class ListWasteActivity : AppCompatActivity() {
                 try {
                     var successResponse = viewModelWaste.sendWaste(userID, partnerID, phoneNumber, province, subDistrict, village, postalCode, latitude,
                         longitude, address, formattedDate, formattedTime, notes, wasteItemList)
-                    showToast(successResponse.message)
                     if (successResponse.message == "Waste pickup order has been successfully received by partner") {
                         showLoading(false)
                         AlertDialog.Builder(this@ListWasteActivity).apply {

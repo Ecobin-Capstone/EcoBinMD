@@ -29,10 +29,9 @@ class SplashActivity : AppCompatActivity() {
                     finish()
                 }, SPLASH_DELAY)
             }
-            //kalau udah login bakal observe tabel user activity
         }
     }
     companion object {
-        private const val SPLASH_DELAY = 3000L // 3 seconds
+        private const val SPLASH_DELAY = 3000L
     }
 }

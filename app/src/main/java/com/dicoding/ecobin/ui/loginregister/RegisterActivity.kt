@@ -93,15 +93,24 @@ class RegisterActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             try {
                                 var successResponse = viewModel.registerUser(name,email,phone, password, latitude,longitude)
-                                showToast(successResponse.message)
                                 showLoading(false)
-                                Log.d("INI CEK ISI SUKSES", successResponse.toString())
-                                if (successResponse != null) {
+                                if (successResponse.message =="Congratulation, your account has been successfully created") {
                                     AlertDialog.Builder(this@RegisterActivity).apply {
                                         setTitle("Yeah!")
                                         setMessage("Akun dengan $email sudah jadi nih. Yuk, login.")
                                         setPositiveButton("Lanjut") { _, _ ->
                                             finish()
+                                        }
+                                        create()
+                                        show()
+                                    }
+                                }else{
+                                    showLoading(false)
+                                    AlertDialog.Builder(this@RegisterActivity).apply {
+                                        setTitle("Gagal!")
+                                        setMessage("Gagal register, silahkan coba kembali.")
+                                        setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
                                         }
                                         create()
                                         show()

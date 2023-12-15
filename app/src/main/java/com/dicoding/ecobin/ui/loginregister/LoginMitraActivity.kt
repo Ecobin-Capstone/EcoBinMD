@@ -60,7 +60,6 @@ class LoginMitraActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     var successResponse = viewModel.loginMitra(email, password)
-                    showToast(successResponse.message)
                     if (successResponse.message == "You have successfully login in your account") {
                         showLoading(false)
                         viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber.toString(),email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "", 0.0,0.0))
@@ -72,6 +71,17 @@ class LoginMitraActivity : AppCompatActivity() {
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }else{
+                        showLoading(false)
+                        AlertDialog.Builder(this@LoginMitraActivity).apply {
+                            setTitle("Gagal!")
+                            setMessage("Gagal login, silahkan coba kembali.")
+                            setPositiveButton("OK") { dialog, _ ->
+                                dialog.dismiss()
                             }
                             create()
                             show()

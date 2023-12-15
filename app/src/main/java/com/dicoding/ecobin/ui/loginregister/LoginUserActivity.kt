@@ -61,7 +61,6 @@ class LoginUserActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     var successResponse = viewModel.loginUser(email, password)
-                    showToast(successResponse.message)
                     if (successResponse.message == "You have successfully login in your account") {
                         showLoading(false)
                         viewModel.saveSession(UserModel(successResponse.data?.get(0)?.phoneNumber ?: "",email,successResponse.data?.get(0)?.id.toString(), successResponse.data?.get(0)?.name ?: "",successResponse.data?.get(0)?.latitude ?: 0.0, successResponse.data?.get(0)?.longitude ?: 0.0))
@@ -73,6 +72,17 @@ class LoginUserActivity : AppCompatActivity() {
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }else{
+                        showLoading(false)
+                        AlertDialog.Builder(this@LoginUserActivity).apply {
+                            setTitle("Gagal!")
+                            setMessage("Gagal login, silahkan coba kembali.")
+                            setPositiveButton("OK") { dialog, _ ->
+                                dialog.dismiss()
                             }
                             create()
                             show()

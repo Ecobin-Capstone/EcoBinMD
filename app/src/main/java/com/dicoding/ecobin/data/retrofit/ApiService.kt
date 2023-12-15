@@ -10,6 +10,8 @@ import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.ProfileResponse
+import com.dicoding.ecobin.data.response.RedeemPointRequest
+import com.dicoding.ecobin.data.response.RedeemResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
@@ -43,6 +45,11 @@ interface ApiService {
         @Body requestBody: SendWasteRequest,
         @Path("id") id: Int
     ): Response<SendWasteResponse>
+    @POST("vouchers/users/{id}/redeem")
+    suspend fun redeemPoint(
+        @Body requestBody: RedeemPointRequest,
+        @Path("id") id: Int
+    ): Response<RedeemResponse>
     @GET("wastepickup/list/types/nonorganic")
     suspend fun getListAnorganic(): Response<OrganicWasteResponse>
     @GET("wastepickup/list/types/organic")

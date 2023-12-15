@@ -49,7 +49,6 @@ class Profile : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     var successResponse = viewModelProfile.updateProfile(ID,name,phone,email)
-                    showToast(successResponse.message)
                     if (successResponse.message == "Your profile has been updated successfully") {
                         showLoading(false)
                         AlertDialog.Builder(this@Profile).apply {
@@ -60,6 +59,17 @@ class Profile : AppCompatActivity() {
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }else{
+                        showLoading(false)
+                        AlertDialog.Builder(this@Profile).apply {
+                            setTitle("Gagal!")
+                            setMessage("Pastikan semua kolom sudah terisi ya")
+                            setPositiveButton("OK") { dialog, _ ->
+                                dialog.dismiss()
                             }
                             create()
                             show()
