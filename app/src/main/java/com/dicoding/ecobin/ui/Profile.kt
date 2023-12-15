@@ -52,11 +52,6 @@ class Profile : AppCompatActivity() {
                     showToast(successResponse.message)
                     if (successResponse.message == "Your profile has been updated successfully") {
                         showLoading(false)
-//                        viewModel.getSession().observe(this@Profile) { user ->
-//                            user?.let {
-//                                user.name = name
-//                            }
-//                        }
                         AlertDialog.Builder(this@Profile).apply {
                             setTitle("Berhasil!")
                             setMessage("Anda berhasil mengubah profile")

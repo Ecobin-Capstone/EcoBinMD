@@ -16,6 +16,7 @@ import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UpdateData
 import com.dicoding.ecobin.data.response.UserActivityResponse
+import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WastePickupResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -63,6 +64,9 @@ interface ApiService {
     @GET("partners/{id}/list/orders")
     suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>
 
+    @GET("vouchers/list")
+    suspend fun getVoucher(): Response<VoucherResponse>
+
     @PATCH("partners/{id}/accept")
     suspend fun updateOrder(
         @Path("id") id: String,
@@ -79,4 +83,6 @@ interface ApiService {
         @Path("id") id: String,
         @Body updateData: UpdateData
     ): Response<ProfileResponse>
+
+
 }

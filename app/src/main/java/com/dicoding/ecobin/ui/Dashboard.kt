@@ -43,6 +43,13 @@ class Dashboard : AppCompatActivity() {
             true
         }
 
+        binding.gift.setOnClickListener {
+            viewModel.getSession().removeObservers(this@Dashboard)
+            val homeIntent = Intent(this@Dashboard, ListVoucherActivity::class.java)
+            startActivity(homeIntent)
+            true
+        }
+
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {

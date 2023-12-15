@@ -9,6 +9,7 @@ import com.dicoding.ecobin.data.response.ProfileResponse
 import com.dicoding.ecobin.data.response.SendWasteRequest
 import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UpdateData
+import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WasteItem
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
@@ -118,6 +119,28 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return OrganicPartnerResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun getVoucher(): VoucherResponse {
+        try {
+            val successResponse = apiService.getVoucher()
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return VoucherResponse(message = "Response body is null")
+                }
+            } else {
+                return VoucherResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, VoucherResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return VoucherResponse(message = "Network error: ${e.message}")
         }
     }
 
