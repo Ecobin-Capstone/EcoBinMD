@@ -64,22 +64,10 @@ class UploadActivity : AppCompatActivity() {
             showLoading(true)
             val requestImageFile = imageFile.asRequestBody("image/jpg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
+                "image",
                 imageFile.name,
                 requestImageFile
             )
-            multipartBody?.let { part ->
-                val requestBody = part.body
-
-                Log.d("MultipartBody Details", "Name: ${part.headers}") // Change here
-
-                // Extract file information
-                Log.d("MultipartBody Details", "File Name: ${part.body?.contentType()}") // Change here
-                Log.d("MultipartBody Details", "Content Type: ${requestBody?.contentType()}") // Change here
-                Log.d("MultipartBody Details", "File Size: ${requestBody?.contentLength()} bytes") // Change here
-            }
-            Log.d("Multipart File", multipartBody.toString())
-            Log.d("Request Details", "File Name: ${imageFile.name}, Content Type: image/jpeg")
             lifecycleScope.launch {
                 try {
                     var successResponse = viewModelML.uploadImage(multipartBody)
@@ -87,7 +75,7 @@ class UploadActivity : AppCompatActivity() {
                     if (successResponse.predictions != null) {
                         AlertDialog.Builder(this@UploadActivity).apply {
                             setTitle("Prediction Result")
-                            setMessage(successResponse.predictions.toString())
+                            setMessage(successResponse.predictions?.get(0)?.toString())
                             setPositiveButton("OK") { dialog, _ ->
                                 dialog.dismiss()
                             }
