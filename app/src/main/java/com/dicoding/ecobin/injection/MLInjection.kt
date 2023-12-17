@@ -1,12 +1,12 @@
 package com.dicoding.ecobin.injection
 
 import android.content.Context
-import com.dicoding.ecobin.data.repository.WasteRepository
+import com.dicoding.ecobin.data.repository.MLRepository
 import com.dicoding.ecobin.data.retrofit.ApiConfigML
 
 object MLInjection {
-    fun provideRepository(context: Context): WasteRepository {
+    fun provideRepository(context: Context): MLRepository {
         val apiService = ApiConfigML.getApiServiceML()
-        return WasteRepository.getInstance(apiService)
+        return MLRepository.getInstance(apiService)
     }
 }

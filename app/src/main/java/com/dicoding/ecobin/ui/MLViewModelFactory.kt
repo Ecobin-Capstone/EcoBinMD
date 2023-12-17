@@ -3,10 +3,10 @@ package com.dicoding.ecobin.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.ecobin.data.repository.WasteRepository
+import com.dicoding.ecobin.data.repository.MLRepository
 import com.dicoding.ecobin.injection.MLInjection
 
-class MLViewModelFactory (private val repository: WasteRepository) : ViewModelProvider.NewInstanceFactory() {
+class MLViewModelFactory (private val repository: MLRepository) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

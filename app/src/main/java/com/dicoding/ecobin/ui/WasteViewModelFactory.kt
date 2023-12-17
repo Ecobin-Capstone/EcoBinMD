@@ -23,6 +23,9 @@ class WasteViewModelFactory (private val repository: WasteRepository) : ViewMode
             modelClass.isAssignableFrom(ListVoucherViewModel::class.java) -> {
                 ListVoucherViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(YoutubeViewModel::class.java) -> {
+                YoutubeViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

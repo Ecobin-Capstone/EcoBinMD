@@ -1,7 +1,7 @@
 package com.dicoding.ecobin.data.repository
 
 import com.dicoding.ecobin.data.response.AcceptDeclineResponse
-import com.dicoding.ecobin.data.response.ClassifierResponse
+import com.dicoding.ecobin.data.response.LinkYoutubeResponse
 import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
@@ -14,13 +14,13 @@ import com.dicoding.ecobin.data.response.SendWasteResponse
 import com.dicoding.ecobin.data.response.UpdateData
 import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WasteItem
+import com.dicoding.ecobin.data.response.YoutubeRequest
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
-import okhttp3.MultipartBody
 import retrofit2.HttpException
 
 class WasteRepository private constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ){
     suspend fun getOrganicWaste(): OrganicWasteResponse {
         try {
@@ -272,6 +272,31 @@ class WasteRepository private constructor(
         }
     }
 
+    suspend fun linkYoutube(wasteType : String): LinkYoutubeResponse {
+        try {
+            val request = YoutubeRequest(
+                wasteType = wasteType
+            )
+            val successResponse = apiService.linkYoutube(request)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return LinkYoutubeResponse(message = "Response body is null")
+                }
+            } else {
+                return LinkYoutubeResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, LinkYoutubeResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return LinkYoutubeResponse(message = "Network error: ${e.message}")
+        }
+    }
+
     suspend fun getnonOrganicPartner(): OrganicPartnerResponse {
         try {
             val successResponse = apiService.getNonorganicPartner()
@@ -294,27 +319,6 @@ class WasteRepository private constructor(
         }
     }
 
-    suspend fun uploadImage(multipartBody: MultipartBody.Part): ClassifierResponse {
-        try {
-            val successResponse = apiService.uploadImage(multipartBody)
-            if (successResponse.isSuccessful) {
-                val responseBody = successResponse.body()
-                if (responseBody != null) {
-                    return responseBody
-                } else {
-                    return ClassifierResponse()
-                }
-            } else {
-                return ClassifierResponse()
-            }
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, ClassifierResponse::class.java)
-            return errorResponse
-        } catch (e: Exception) {
-            return ClassifierResponse()
-        }
-    }
     companion object {
         @Volatile
         private var instance: WasteRepository? = null

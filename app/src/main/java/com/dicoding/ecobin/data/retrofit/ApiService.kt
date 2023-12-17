@@ -1,7 +1,7 @@
 package com.dicoding.ecobin.data.retrofit
 
 import com.dicoding.ecobin.data.response.AcceptDeclineResponse
-import com.dicoding.ecobin.data.response.ClassifierResponse
+import com.dicoding.ecobin.data.response.LinkYoutubeResponse
 import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
@@ -22,14 +22,12 @@ import com.dicoding.ecobin.data.response.UpdateData
 import com.dicoding.ecobin.data.response.UserActivityResponse
 import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WastePickupResponse
-import okhttp3.MultipartBody
+import com.dicoding.ecobin.data.response.YoutubeRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
-import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface ApiService {
@@ -55,6 +53,12 @@ interface ApiService {
         @Body requestBody: RedeemPointRequest,
         @Path("id") id: Int
     ): Response<RedeemResponse>
+
+    @POST("recycle/videos/recommendation")
+    suspend fun linkYoutube(
+        @Body requestBody: YoutubeRequest,
+    ): Response<LinkYoutubeResponse>
+
     @GET("wastepickup/list/types/nonorganic")
     suspend fun getListAnorganic(): Response<OrganicWasteResponse>
     @GET("wastepickup/list/types/organic")
@@ -99,10 +103,10 @@ interface ApiService {
         @Body updateData: UpdateData
     ): Response<ProfileResponse>
 
-    @Multipart
-    @POST("api")
-    suspend fun uploadImage(
-        @Part file: MultipartBody.Part,
-    ): Response<ClassifierResponse>
+//    @Multipart
+//    @POST("api")
+//    suspend fun uploadImage(
+//        @Part file: MultipartBody.Part,
+//    ): Response<ClassifierResponse>
 
 }
