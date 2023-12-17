@@ -1,6 +1,7 @@
 package com.dicoding.ecobin.data.repository
 
 import com.dicoding.ecobin.data.response.AcceptDeclineResponse
+import com.dicoding.ecobin.data.response.ClassifierResponse
 import com.dicoding.ecobin.data.response.ListOrderResponse
 import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
@@ -15,6 +16,7 @@ import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WasteItem
 import com.dicoding.ecobin.data.retrofit.ApiService
 import com.google.gson.Gson
+import okhttp3.MultipartBody
 import retrofit2.HttpException
 
 class WasteRepository private constructor(
@@ -289,6 +291,28 @@ class WasteRepository private constructor(
             return errorResponse
         } catch (e: Exception) {
             return OrganicPartnerResponse(message = "Network error: ${e.message}")
+        }
+    }
+
+    suspend fun uploadImage(multipartBody: MultipartBody.Part): ClassifierResponse {
+        try {
+            val successResponse = apiService.uploadImage(multipartBody)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return ClassifierResponse()
+                }
+            } else {
+                return ClassifierResponse()
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ClassifierResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return ClassifierResponse()
         }
     }
     companion object {
