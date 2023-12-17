@@ -68,6 +68,16 @@ class UploadActivity : AppCompatActivity() {
                 imageFile.name,
                 requestImageFile
             )
+            multipartBody?.let { part ->
+                val requestBody = part.body
+
+                Log.d("MultipartBody Details", "Name: ${part.headers}") // Change here
+
+                // Extract file information
+                Log.d("MultipartBody Details", "File Name: ${part.body?.contentType()}") // Change here
+                Log.d("MultipartBody Details", "Content Type: ${requestBody?.contentType()}") // Change here
+                Log.d("MultipartBody Details", "File Size: ${requestBody?.contentLength()} bytes") // Change here
+            }
             Log.d("Multipart File", multipartBody.toString())
             Log.d("Request Details", "File Name: ${imageFile.name}, Content Type: image/jpeg")
             lifecycleScope.launch {

@@ -11,6 +11,7 @@ import com.dicoding.ecobin.data.response.OrderDataToUpdate
 import com.dicoding.ecobin.data.response.OrganicPartnerResponse
 import com.dicoding.ecobin.data.response.OrganicWasteResponse
 import com.dicoding.ecobin.data.response.ProfileResponse
+import com.dicoding.ecobin.data.response.ReceiptResponse
 import com.dicoding.ecobin.data.response.RedeemPointRequest
 import com.dicoding.ecobin.data.response.RedeemResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
@@ -75,6 +76,9 @@ interface ApiService {
     @GET("partners/{id}/list/orders")
     suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>
 
+    @GET("vouchers/users/{id}/list/receipts")
+    suspend fun getReceipt(@Path("id") id: String): Response<ReceiptResponse>
+
     @GET("vouchers/list")
     suspend fun getVoucher(): Response<VoucherResponse>
 
@@ -94,6 +98,7 @@ interface ApiService {
         @Path("id") id: String,
         @Body updateData: UpdateData
     ): Response<ProfileResponse>
+
     @Multipart
     @POST("api")
     suspend fun uploadImage(

@@ -4,6 +4,7 @@ import com.dicoding.ecobin.data.response.LoginMitraRequest
 import com.dicoding.ecobin.data.response.LoginMitraResponse
 import com.dicoding.ecobin.data.response.LoginRequest
 import com.dicoding.ecobin.data.response.LoginResponse
+import com.dicoding.ecobin.data.response.ReceiptResponse
 import com.dicoding.ecobin.data.response.RegisterRequest
 import com.dicoding.ecobin.data.response.RegisterResponse
 import com.dicoding.ecobin.data.response.UserActivityResponse
@@ -18,6 +19,28 @@ class UserRepository private constructor(
     private val userPreference: UserPreference,
     private val apiService: ApiService
 ) {
+
+    suspend fun getReceipt(id: String): ReceiptResponse {
+        try {
+            val successResponse = apiService.getReceipt(id)
+            if (successResponse.isSuccessful) {
+                val responseBody = successResponse.body()
+                if (responseBody != null) {
+                    return responseBody
+                } else {
+                    return ReceiptResponse(message = "Response body is null")
+                }
+            } else {
+                return ReceiptResponse(message = "Request failed with HTTP status code: ${successResponse.code()}")
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ReceiptResponse::class.java)
+            return errorResponse
+        } catch (e: Exception) {
+            return ReceiptResponse(message = "Network error: ${e.message}")
+        }
+    }
 
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
