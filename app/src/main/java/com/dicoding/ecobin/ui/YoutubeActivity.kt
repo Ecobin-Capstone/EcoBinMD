@@ -2,6 +2,7 @@ package com.dicoding.ecobin.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,7 +12,9 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.ecobin.R
+import com.dicoding.ecobin.data.response.LinkYoutubeResponse
 import com.dicoding.ecobin.databinding.ActivityYoutubeBinding
+import com.google.gson.Gson
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
@@ -19,6 +22,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFram
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.util.regex.Pattern
 
 
@@ -27,7 +31,7 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
     companion object {
         const val EXTRA_TYPE= ""
         var tipeSampah = ""
-        var video_url = ""
+        var videoId = ""
     }
     private lateinit var binding: ActivityYoutubeBinding
     private lateinit var youTubePlayerView: YouTubePlayerView
@@ -46,24 +50,23 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
         youTubePlayerView.enableAutomaticInitialization = false
         lifecycle.addObserver(this)
 
-//        tipeSampah= intent.getStringExtra(EXTRA_TYPE) ?: ""
-//
-//        lifecycleScope.launch {
-//            try {
-//                var successResponse = viewModel.linkYoutube(tipeSampah)
-//                if (successResponse.message != "List video links of waste management for that waste type") {
-//                    Log.d("URL",successResponse.data?.get(0)?.videoUrl.toString())
-//                    video_url = successResponse.data?.get(0)?.videoUrl.toString()
-//                }
-//            } catch (e: HttpException) {
-//                val errorBody = e.response()?.errorBody()?.string()
-//                val errorResponse = Gson().fromJson(errorBody, LinkYoutubeResponse::class.java)
-//                errorResponse.message?.let { showToast(it) }
-//            }
-//        }
+        tipeSampah= intent.getStringExtra(EXTRA_TYPE) ?: ""
+        val noWhiteSpace = tipeSampah.replace("\\s".toRegex(), "")
 
-//        val youtubeUrl = "YOUR_YOUTUBE_VIDEO_URL"
-//        val videoId = extractVideoId(youtubeUrl)
+        lifecycleScope.launch {
+            try {
+                var successResponse = viewModel.linkYoutube(noWhiteSpace)
+                if (successResponse.message == "List video links of waste management for that waste type") {
+                    val videoUrl = successResponse.data?.get(0)?.videoUrl.toString()
+                    videoId = extractVideoId(videoUrl)
+                    Log.d("INI VIDEO", videoId)
+                }
+            } catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, LinkYoutubeResponse::class.java)
+                errorResponse.message?.let { showToast(it) }
+            }
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -78,7 +81,7 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
                     val customPlayerUiController =
                         CustomPlayerUiController(customPlayerUi, youTubePlayer, youTubePlayerView)
                     youTubePlayer.addListener(customPlayerUiController)
-                    youTubePlayer.loadOrCueVideo(lifecycle = lifecycle,"nOEGsG1Oc7E",0f)
+                    youTubePlayer.loadOrCueVideo(lifecycle = lifecycle,videoId,0f)
                 }
             }
 
@@ -94,14 +97,14 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
         youTubePlayerView.release()
     }
 
-    fun extractVideoId(youtubeUrl: String): String? {
+    fun extractVideoId(youtubeUrl: String): String {
         val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*"
         val compiledPattern = Pattern.compile(pattern)
         val matcher = compiledPattern.matcher(youtubeUrl)
         return if (matcher.find()) {
             matcher.group()
         } else {
-            null
+            ""
         }
     }
 }

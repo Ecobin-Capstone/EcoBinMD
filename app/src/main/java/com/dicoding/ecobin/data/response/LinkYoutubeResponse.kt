@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class LinkYoutubeResponse(
 
-	@field:SerializedName("dataYT")
-	val data: List<dataYT?>? = null,
+	@field:SerializedName("data")
+	val data: List<DataYT?>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null
@@ -14,7 +14,7 @@ data class LinkYoutubeResponse(
 data class YoutubeRequest(
 	val wasteType: String
 )
-data class dataYT(
+data class DataYT(
 
 	@field:SerializedName("createdAt")
 	val createdAt: String? = null,
