@@ -103,10 +103,4 @@ interface ApiService {
         @Body updateData: UpdateData
     ): Response<ProfileResponse>
 
-//    @Multipart
-//    @POST("api")
-//    suspend fun uploadImage(
-//        @Part file: MultipartBody.Part,
-//    ): Response<ClassifierResponse>
-
 }

@@ -96,8 +96,26 @@ class UploadActivity : AppCompatActivity() {
                         val resultMap = extractNonNullKeys(successResponse.predictions?.get(0).toString())
 
                         // Log all keys in the resultMap
-                        resultMap.keys.forEach { key ->
+                        resultMap.forEach{(key, value)->
                             Log.d("Key", key)
+                            Log.d("INI VALUENYA ", key)
+
+                            val confidenceThreshold = 0.70
+
+                            if (value.toDoubleOrNull() != null && value.toDouble() < confidenceThreshold) {
+                                // Confidence is below threshold, prompt the user to upload another image
+                                // Show an alert dialog or trigger an action to upload another image
+                                AlertDialog.Builder(this@UploadActivity).apply {
+                                    setTitle("Sorry!")
+//                                    setMessage("The confidence level for $key is below $confidenceThreshold. Please upload another image.")
+                                    setMessage("The photo is too blurry. Please upload another image.")
+                                    setPositiveButton("OK") { dialog, _ ->
+                                    }
+                                    create()
+                                    show()
+                                }
+                                return@launch  // Stop further processing if confidence is low
+                            }
                         }
 
                         // Get the last key from the resultMap
