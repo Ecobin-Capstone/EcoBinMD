@@ -21,4 +21,7 @@ class DashboardViewModel(private val repository: UserRepository) : ViewModel(){
 
     suspend fun getActivity(id : String)= repository.getActivity(id)
     suspend fun getReceipt(id : String)= repository.getReceipt(id)
+    fun saveSession(userModel: UserModel) {
+
+    }
 }

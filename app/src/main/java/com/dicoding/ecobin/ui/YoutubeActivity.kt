@@ -1,6 +1,7 @@
 package com.dicoding.ecobin.ui
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -93,6 +94,9 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
         super.onBackPressed()
         youTubePlayerView.release()
         lifecycle.removeObserver(this)
+        finish()
+        val dashboardIntent = Intent(this@YoutubeActivity, Dashboard::class.java)
+        startActivity(dashboardIntent)
     }
 
 

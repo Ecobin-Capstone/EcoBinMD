@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dicoding.ecobin.R
 import com.dicoding.ecobin.data.response.ProfileResponse
 import com.dicoding.ecobin.databinding.ActivityProfileBinding
+import com.dicoding.ecobin.pref.UserModel
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -27,6 +28,8 @@ class Profile : AppCompatActivity() {
     }
     companion object {
         var ID = ""
+        var lat = 0.0
+        var long = 0.0
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +42,11 @@ class Profile : AppCompatActivity() {
                     binding.nameEditText.setText(user.name)
                     binding.phoneNumberEditText.setText(user.phoneNumber)
                     binding.emailEditText.setText(user.email)
+
                 }
                 ID = user.id
+                lat = user.lat
+                long = user.long
             }
         }
 
@@ -52,6 +58,7 @@ class Profile : AppCompatActivity() {
                 try {
                     var successResponse = viewModelProfile.updateProfile(ID,name,phone,email)
                     if (successResponse.message == "Your profile has been updated successfully") {
+                        viewModel.saveSession(UserModel(id=ID,name = name, phoneNumber = phone, email = email,lat= lat,long= long))
                         showLoading(false)
                         AlertDialog.Builder(this@Profile).apply {
                             setTitle("Berhasil!")
