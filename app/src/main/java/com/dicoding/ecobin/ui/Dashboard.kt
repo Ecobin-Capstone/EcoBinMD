@@ -1,9 +1,11 @@
 package com.dicoding.ecobin.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +28,7 @@ class Dashboard : AppCompatActivity(), ListReceiptAdapter.VoucherClickListener {
         var id = ""
     }
     private lateinit var binding: ActivityDashboardBinding
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -34,7 +37,6 @@ class Dashboard : AppCompatActivity(), ListReceiptAdapter.VoucherClickListener {
         binding.rvVoucher.layoutManager = LinearLayoutManager(this)
         val adapter = ListReceiptAdapter(this)
         binding.rvVoucher.adapter = adapter
-
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))
