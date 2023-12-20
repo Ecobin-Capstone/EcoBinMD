@@ -23,6 +23,7 @@ import com.dicoding.ecobin.data.response.UserActivityResponse
 import com.dicoding.ecobin.data.response.VoucherResponse
 import com.dicoding.ecobin.data.response.WastePickupResponse
 import com.dicoding.ecobin.data.response.YoutubeRequest
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -71,11 +72,11 @@ interface ApiService {
     suspend fun getActivity(@Path("id") id: String): Response<UserActivityResponse>
 
     @GET("wastepickup/users/{id}/history/pending")
-    suspend fun getPending(@Path("id") id: String): Response<WastePickupResponse>
+    fun getPending(@Path("id") id: String): Call<WastePickupResponse>
     @GET("wastepickup/users/{id}/history/accept")
-    suspend fun getAccept(@Path("id") id: String): Response<WastePickupResponse>
+    fun getAccept(@Path("id") id: String): Call<WastePickupResponse>
     @GET("wastepickup/users/{id}/history/decline")
-    suspend fun getDecline(@Path("id") id: String): Response<WastePickupResponse>
+    fun getDecline(@Path("id") id: String): Call<WastePickupResponse>
 
     @GET("partners/{id}/list/orders")
     suspend fun getOrder(@Path("id") id: String): Response<ListOrderResponse>

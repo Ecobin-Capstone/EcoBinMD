@@ -89,13 +89,12 @@ class YoutubeActivity : AppCompatActivity(), LifecycleObserver {
             youTubePlayerView.initialize(listener, options)
         }
     }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    override fun onDestroy() {
-        super.onDestroy()
-        // Release the YouTube Player
+    override fun onBackPressed() {
+        super.onBackPressed()
         youTubePlayerView.release()
+        lifecycle.removeObserver(this)
     }
+
 
     fun extractVideoId(youtubeUrl: String): String {
         val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*"

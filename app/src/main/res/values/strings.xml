@@ -22,4 +22,8 @@
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
     <string name="waste_type">Plastik</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tab_text_1">Pending</string>
+    <string name="tab_text_2">Completed</string>
+    <string name="tab_text_3">Declined</string>
 </resources>

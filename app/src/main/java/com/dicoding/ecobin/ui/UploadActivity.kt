@@ -1,5 +1,6 @@
 package com.dicoding.ecobin.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.ecobin.data.response.ClassifierResponse
-import com.dicoding.ecobin.data.response.LinkYoutubeResponse
 import com.dicoding.ecobin.databinding.ActivityUploadBinding
 import com.dicoding.ecobin.ui.helper.getImageUri
 import com.dicoding.ecobin.ui.helper.reduceFileImage
@@ -28,10 +28,6 @@ import retrofit2.HttpException
 class UploadActivity : AppCompatActivity() {
     private var currentImageUri: Uri? = null
     private lateinit var binding: ActivityUploadBinding
-    companion object {
-        var video_id = ""
-        var wasteType=""
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -40,16 +36,6 @@ class UploadActivity : AppCompatActivity() {
         binding.cameraButton.setOnClickListener { startCamera() }
         binding.uploadButton.setOnClickListener{ uploadImage()}
     }
-
-//    private fun uploadAndPerformSecondApiCall() {
-//        uploadImage { success ->
-//            if (success) {
-//                performSecondAPICall(wasteType)
-//            } else {
-//                // Handle failure scenario if needed
-//            }
-//        }
-//    }
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -146,33 +132,6 @@ class UploadActivity : AppCompatActivity() {
             }
         } ?: showToast("Silakan masukkan berkas gambar terlebih dahulu.")
     }
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-    fun performSecondAPICall(wasteType: String) {
-        lifecycleScope.launch {
-            try {
-                var successResponse = viewModel.linkYoutube(wasteType)
-                if (successResponse.message != "List video links of waste management for that waste type") {
-
-                    AlertDialog.Builder(this@UploadActivity).apply {
-                        setTitle("Prediction Result")
-                        setMessage(successResponse.data?.get(0)?.videoUrl)
-                        setPositiveButton("OK") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        create()
-                        show()
-                    }
-                }
-            } catch (e: HttpException) {
-                val errorBody = e.response()?.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, LinkYoutubeResponse::class.java)
-                errorResponse.message?.let { showToast(it) }
-                showLoading(false)
-            }
-        }
-    }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -201,7 +160,18 @@ class UploadActivity : AppCompatActivity() {
     }
     private fun startCamera() {
         currentImageUri = getImageUri(this)
-        launcherIntentCamera.launch(currentImageUri)
+        try {
+            launcherIntentCamera.launch(currentImageUri)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "Camera not found", Toast.LENGTH_SHORT).show()
+            Log.e("CameraCapture", "Camera not found: ${e.message}")
+        } catch (e: SecurityException) {
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            Log.e("CameraCapture", "Permission denied: ${e.message}")
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to open camera", Toast.LENGTH_SHORT).show()
+            Log.e("CameraCapture", "Failed to open camera: ${e.message}")
+        }
     }
 
     private val launcherIntentCamera = registerForActivityResult(
@@ -209,6 +179,9 @@ class UploadActivity : AppCompatActivity() {
     ) { isSuccess ->
         if (isSuccess) {
             showImage()
+        } else {
+            Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show()
+            Log.e("CameraCapture", "Failed to capture image")
         }
     }
 }
