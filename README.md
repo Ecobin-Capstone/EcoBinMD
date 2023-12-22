@@ -35,7 +35,7 @@
 ## Links 📝 :
 - [Demo Video](https://drive.google.com/file/d/1m-JMDEwmp-LlxXIMIl8WGhGGfiJzqNzV/view?usp=sharing)
 - [APK](https://drive.google.com/file/d/1LQIbH_2R97gF9RHcn1iZ_wrqLKiZJ6nn/view?usp=sharing)
-- [Partner Login Information](Partner Authentication.txt)
+- [Partner Login Information]([https://github.com/user/repo/blob/branch/other_file.md](https://github.com/Ecobin-Capstone/EcoBinMD/blob/master/Partner%20Authentication.txt)https://github.com/Ecobin-Capstone/EcoBinMD/blob/master/Partner%20Authentication.txt)
 
 ## Contributor :
 - [Lingga Dian Lestari - A505BSX1958](https://github.com/lingga24)
