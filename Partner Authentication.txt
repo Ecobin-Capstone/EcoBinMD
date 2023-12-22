@@ -1,0 +1,24 @@
+Dummy Partner Authentication Information
+
+Important Note !!
+For the purpose of testing and developing EcoBin application, please take note of the following authentication information used within EcoBin application scope:
+
+1. Email    : bumiindus@gmail.com
+   Password : bumiindus1234
+2. Email    : sikluskaryaglobal@gmail.com
+   Password : sikluskarya1234
+3. Email    : majesticbuana@gmail.com
+   Password : majesticbuana1234
+4. Email    : universalecolestari@gmail.com
+   Password : universaleco12345
+5. Email    : planterbag@gmail.com
+   Password : planterbag12345
+
+Please use this information responsibly and only within context of testing EcoBin application. Do not diclose or share this informatin with external or unauthorized parties.
+
+This authentication information is exclusively utilized for functional testing of EcoBin application, particularly for accepting and rejecting user order waste pickups. Please ensure the confidentiality of this information and use it in accordance with established procedures.
+
+Thank you for your attention in maintaining the confidentiality and responsible use of this information.
+
+Best regards,
+EcoBin Developer
